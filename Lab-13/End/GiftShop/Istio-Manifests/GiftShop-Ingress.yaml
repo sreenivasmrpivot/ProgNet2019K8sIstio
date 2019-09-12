@@ -56,18 +56,15 @@ spec:
   gateways:
   - demo-ingress-gateway
   http:
-  - match:
-    - headers:
-        continent:
-          exact: asia
-    route:
-    - destination:
-        host: giftshopui
-        subset: v4
   - route:
     - destination:
         host: giftshopui
+        subset: v4
+      weight: 75
+    - destination:
+        host: giftshopui
         subset: v6
+      weight: 25
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
