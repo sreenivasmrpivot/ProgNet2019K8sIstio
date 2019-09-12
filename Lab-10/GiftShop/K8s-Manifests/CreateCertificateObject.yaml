@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret
+spec:
+  secretName: tls-secret
+  dnsNames:
+  - <username>-giftshopapi.<user's domain>
+  - <username>-giftshopui.<user's domain>
+  acme:
+    config:
+    - http01:
+        ingressClass: none
+      domains:
+      - <username>-giftshopapi.<user's domain>
+      - <username>-giftshopui.<user's domain>
+  issuerRef:
+    name: demo-staging
+    kind: ClusterIssuer

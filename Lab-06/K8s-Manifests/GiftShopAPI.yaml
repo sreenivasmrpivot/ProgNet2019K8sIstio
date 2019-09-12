@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: giftshopapi-v1
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: giftshopapi
+        tier: backend
+        version: v1
+    spec:
+      containers:
+      - name: giftshopapi
+        image: <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopapi:1.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name:  <username>harborsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: giftshopapi
+spec:
+  #type: LoadBalancer #uncomment this to directly expose with regular Kubernetes without Istio
+  selector:
+    app: giftshopapi
+  ports:
+  - port: 80
+    name: http-giftshopapi  # Should start with http- for Istio, Jager and Prometheus to trace requests

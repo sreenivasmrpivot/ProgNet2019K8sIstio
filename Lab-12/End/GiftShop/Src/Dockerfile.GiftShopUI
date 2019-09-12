@@ -1,0 +1,27 @@
+# This is a multi-stage build docker file.
+#  1. The last stage image only exists post building the docker. 
+#     All stages prior to the last stage are cleaned up.
+#  2. Different stages can access the folder / files from previous stage.
+
+# Stage 1 - Build image which has all the SDK and tools to build the code
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
+# ^^^ This the .net core build image 
+WORKDIR /app
+# ^^^ The WORKDIR defines the directory on the image which will be shared and accessible across different stages
+
+# Copy csproj and restore as distinct layers
+COPY . ./
+RUN dotnet restore GiftShopUI/*.csproj
+
+# Copy everything else and build
+# COPY . ./
+RUN dotnet publish GiftShopUI/*.csproj -c Release -o out
+
+# Stage 1 - Runtime image which 
+#  1. Has just the .net core runtime
+#  2. It does not have any SDK or build tools
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+WORKDIR /app
+COPY --from=build-env /app/GiftShopUI/out .
+EXPOSE 80 443
+ENTRYPOINT ["dotnet", "/app/GiftShopUI.dll"]

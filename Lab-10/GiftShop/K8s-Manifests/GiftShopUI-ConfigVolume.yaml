@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: giftshopui-config
+data:
+  GiftShopAPIBaseUrl: |-
+    {
+      "ExternalDependencies": {
+        "GiftShopAPI": {
+          "BaseUrl": "http://giftshopapi.<username>-microservices.svc.cluster.local/"
+        }
+      }
+    }

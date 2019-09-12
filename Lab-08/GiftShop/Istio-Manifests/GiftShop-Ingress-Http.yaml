@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: demo-ingress-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - <username>-giftshopapi.<user's domain>
+    - <username>-giftshopui.<user's domain>
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: <username>-giftshopapi
+spec:
+  hosts:
+  - <username>-giftshopapi.<user's domain>
+  gateways:
+  - demo-ingress-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /swagger
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: giftshopapi
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: <username>-giftshopui
+spec:
+  hosts:
+  - <username>-giftshopui.<user's domain>
+  gateways:
+  - demo-ingress-gateway
+  http:
+  - route:
+    - destination:
+        host: giftshopui
+        port:
+          number: 80

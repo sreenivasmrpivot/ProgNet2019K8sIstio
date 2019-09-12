@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "",
+    "appService.deploySubpath": "Lab-01/End/TescoAPI"
+}

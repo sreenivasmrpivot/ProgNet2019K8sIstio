@@ -1,0 +1,89 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: demo-egressgateway
+spec:
+  selector:
+    istio: egressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
+    hosts:
+    - prognet2019walmartapi.azurewebsites.net
+    - prognet2019tescoapi.azurewebsites.net
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: walmartapi
+spec:
+  hosts:
+  - prognet2019walmartapi.azurewebsites.net
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: walmartapi
+spec:
+  hosts:
+  - prognet2019walmartapi.azurewebsites.net
+  gateways:
+  - demo-egressgateway
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - prognet2019walmartapi.azurewebsites.net
+    route:
+    - destination:
+        host: prognet2019walmartapi.azurewebsites.net
+        port:
+          number: 443
+      weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: tescoapi
+spec:
+  hosts:
+  - prognet2019tescoapi.azurewebsites.net
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tescoapi
+spec:
+  hosts:
+  - prognet2019tescoapi.azurewebsites.net
+  gateways:
+  - demo-egressgateway
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      - prognet2019tescoapi.azurewebsites.net
+    route:
+    - destination:
+        host: prognet2019tescoapi.azurewebsites.net
+        port:
+          number: 443
+      weight: 100
