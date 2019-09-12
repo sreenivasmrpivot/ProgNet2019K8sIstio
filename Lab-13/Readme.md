@@ -151,7 +151,7 @@ GiftShopUI v4
 GiftShopUI v6
 ![GiftShopUI v6](Assets/GiftShopUI-v6-Lab-13-Pic2.png "GiftShopUI v6")
 
-12. Lets us assume business decides to expose v4 to "continent=asia" and v6 to rest of the world. Then you may update the GiftShop-Ingress as shown below to achieve that routing.
+12. Lets us assume business decides to expose v4 to 75% of users and v6 to rest of the users. Then you may update the GiftShop-Ingress as shown below to achieve that routing.
 
 <sub><sup>*GiftShop-Ingress.yaml --> ProgNet2019K8sIstio/Lab-13/End/GiftShop/Istio-Manifests/GiftShop-Ingress.yaml*</sup></sub>
 ``` yaml
@@ -165,16 +165,30 @@ spec:
   gateways:
   - demo-ingress-gateway
   http:
-  - match:
-    - headers:
-        continent:
-          exact: asia
-    route:
-    - destination:
-        host: giftshopui
-        subset: v4
   - route:
     - destination:
         host: giftshopui
+        subset: v4
+      weight: 75
+    - destination:
+        host: giftshopui
         subset: v6
-```
+      weight: 25
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sreeni-giftshopui
+spec:
+  host: giftshopui
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v4
+    labels:
+      version: v4
+  - name: v6
+    labels:
+      version: v6
+---
