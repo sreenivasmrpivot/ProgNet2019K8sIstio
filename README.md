@@ -22,7 +22,7 @@ all with guided samples.
 
 ## Labs structure and working through it
 
-The session has been organized into multiple labs each of which has a _**Begin**_ and a _**End**_ folder. 
+The session has been organized into multiple labs some of which has a _**Begin**_ and a _**End**_ folder. 
 
 1. Lab-01 (Creating a basic GiftShop .Net core Application)
 2. Lab-02 (Containerize GiftShop Application using Docker locally)

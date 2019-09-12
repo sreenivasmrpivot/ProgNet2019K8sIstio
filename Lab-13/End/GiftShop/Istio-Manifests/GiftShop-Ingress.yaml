@@ -68,4 +68,21 @@ spec:
     - destination:
         host: giftshopui
         subset: v6
-        
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: sreeni-giftshopui
+spec:
+  host: giftshopui
+  trafficPolicy:
+    loadBalancer:
+      simple: RANDOM
+  subsets:
+  - name: v4
+    labels:
+      version: v4
+  - name: v6
+    labels:
+      version: v6
+---
