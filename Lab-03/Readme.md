@@ -44,7 +44,7 @@ Tag the images built by executing.
 docker tag <username>-giftshopapi:1.0 <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopapi:1.0
 
 # Tag the GiftShopUI image
-docker tag <username>-giftshopui:1.0 <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopapi:1.0
+docker tag <username>-giftshopui:1.0 <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopui:1.0
 ```
 
 You may verify the existence of your tagged images locally by executing 
@@ -68,7 +68,7 @@ You will be challenged with a username and password to login. Once you login, yo
 docker push <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopapi:1.0
 
 # Push the GiftShopUI image
-docker push <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopapi:1.0
+docker push <YOUR_HARBOR_FQDN>/<YOUR_HARBOR_PROJECT>/<username>-giftshopui:1.0
 ```
 
 You may login to the Harbor regitry using the url https://<YOUR_HARBOR_FQDN> from your browser, navigate to <YOUR_HARBOR_PROJECT> and search for your images using your <username> in the search for "Filter Repositories".
