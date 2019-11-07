@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: www-lb-clients-destinationrule
+  namespace: integris-istio
+spec:
+  host: www-lb.integris-istio.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: PERMISSIVE

@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret
+spec:
+  secretName: tls-secret
+  dnsNames:
+  - giftshopapi.smanyamr.com
+  - giftshopui.smanyamr.com
+  acme:
+    config:
+    - http01:
+        ingressClass: none
+      domains:
+      - giftshopapi.smanyamr.com
+      - giftshopui.smanyamr.com
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer

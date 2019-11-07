@@ -1,0 +1,95 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: giftshopui-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: giftshopui
+        tier: frontend
+        version: v2
+    spec:
+      containers:
+      - name: giftshopui
+        image: sreenivasmr/giftshopui:2.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ExternalDependencies_GiftShopAPI_BaseUrl
+          valueFrom:
+            configMapKeyRef:
+              name: giftshopui-config
+              key: GiftShopAPIBaseUrl
+        # volumeMounts:
+        # - name: giftshopui-config
+        #   mountPath: /app/GiftShopUI/out/AppConfig.json
+        #   subPath: AppConfig.json
+      # imagePullSecrets:
+      #   - name:  sreeniacrsecret
+      # volumes:
+      # - name: giftshopui-config
+      #   configMap:
+      #       name: giftshopui-config
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: giftshopui-v3
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: giftshopui
+        tier: frontend
+        version: v3
+    spec:
+      containers:
+      - name: giftshopui
+        image: sreenivasmr/giftshopui:3.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ExternalDependencies_GiftShopAPI_BaseUrl
+          valueFrom:
+            configMapKeyRef:
+              name: giftshopui-config
+              key: GiftShopAPIBaseUrl
+        # volumeMounts:
+        # - name: giftshopui-config
+        #   mountPath: /app/GiftShopUI/out/AppConfig.json
+        #   subPath: AppConfig.json
+      # imagePullSecrets:
+      #   - name:  sreeniacrsecret
+      # volumes:
+      # - name: giftshopui-config
+      #   configMap:
+      #       name: giftshopui-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: giftshopui
+spec:
+  #type: LoadBalancer #uncomment this to directly expose with regular Kubernetes without Istio
+  selector:
+    app: giftshopui
+  ports:
+  - port: 80
+    name: http-giftshopui  # Should start with http- for Istio, Jager and Prometheus to trace requests

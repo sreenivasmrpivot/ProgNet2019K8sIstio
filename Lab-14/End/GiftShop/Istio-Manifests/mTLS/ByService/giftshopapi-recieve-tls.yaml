@@ -1,0 +1,11 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: www-lb-receive-tls
+  namespace: integris-istio
+spec:
+  targets:
+  - name: www-lb
+  peers:
+  - mtls: 
+    mode: DISABLE

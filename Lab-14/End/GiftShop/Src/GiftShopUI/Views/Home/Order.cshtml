@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Order";
+}
+@model Order  
+<form asp-controller="Home" asp-action="Index" method="post" >  
+    <div class="form-group">  
+        <div class="row">  
+            <label asp-for="OrderResponse.Number" class="col-lg-2"></label>  
+            <input type="string" disabled="disabled" class="col-lg-2" asp-for="OrderResponse.Number" />  
+        </div>  
+        <div class="row">  
+            <label asp-for="OrderResponse.ExpiryDate" class="col-lg-2"></label>  
+            <input type="string" disabled="disabled" class="col-lg-2" asp-for="OrderResponse.ExpiryDate" />  
+        </div>  
+        <div class="row">  
+            <label asp-for="OrderResponse.SecurityCode" class="col-lg-2"></label>  
+            <input type="string" disabled="disabled" class="col-lg-2" asp-for="OrderResponse.SecurityCode" />  
+        </div>  
+        <div class="row">  
+            <label asp-for="OrderResponse.Type" class="col-lg-2"></label>  
+            <input type="string" disabled="disabled" class="col-lg-2" asp-for="OrderResponse.Type" />  
+        </div>  
+            <div class="row">  
+            <label asp-for="OrderResponse.Amount" class="col-lg-2"></label>  
+            <input type="string" disabled="disabled" class="col-lg-2" asp-for="OrderResponse.Amount" />  
+        </div>  
+    </div>  
+</form>  

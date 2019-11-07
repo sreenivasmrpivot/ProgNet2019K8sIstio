@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Gifts";
+}
+@model Order  
+<form asp-controller="Home" asp-action="Index" method="post" >  
+    <div class="form-group">  
+        <div class="row">  
+            <label asp-for="GiftOptions" class="col-lg-2"></label>  
+            <select asp-for="GiftOptions" class="col-lg-2" asp-items="Html.GetEnumSelectList<GiftOptions>()">  
+                <option selected="selected" value="0">Pick One</option>  
+            </select>  
+        </div>  
+        <div class="row">  
+            <label asp-for="Amount" class="col-lg-2"></label>  
+            <input type="double" class="col-lg-2" asp-for="Amount" />  
+        </div>  
+        <div class="row">  
+            <input type="submit" value="Submit" asp-action="Gifts" />  
+        </div>  
+        <div class="row">  
+            <h2 style="color:crimson; background-color:darksalmon; padding:10px;">
+                @ViewBag.Result
+            </h2>
+        </div>  
+    </div>  
+</form>  
